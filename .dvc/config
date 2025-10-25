@@ -1,0 +1,4 @@
+[core]
+    remote = gcs-dvc
+['remote "gcs-dvc"']
+    url = gs://iris-dataset-git-dvc-tracking/

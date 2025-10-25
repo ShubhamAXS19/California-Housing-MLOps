@@ -1,0 +1,7 @@
+stages:
+  fetch_data_from_gcs:
+    cmd: python src/dataset.py
+    deps:
+      - src/dataset.py
+    outs:
+      - data/raw/california-housing.csv

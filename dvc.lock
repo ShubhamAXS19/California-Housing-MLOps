@@ -1,0 +1,14 @@
+schema: '2.0'
+stages:
+  fetch_data_from_gcs:
+    cmd: python src/dataset.py
+    deps:
+    - path: src/dataset.py
+      hash: md5
+      md5: 12c16ed4b671040e6a9e1dc8a0f6fa32
+      size: 1303
+    outs:
+    - path: data/raw/california-housing.csv
+      hash: md5
+      md5: d1c47305887e2252bf1ccbd74ff159a6
+      size: 1423529

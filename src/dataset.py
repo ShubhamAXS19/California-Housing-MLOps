@@ -1,29 +1,39 @@
+import os
+from dotenv import load_dotenv
+from google.cloud import storage
 from pathlib import Path
 
-from loguru import logger
-from tqdm import tqdm
-import typer
+# Load environment variables
+load_dotenv()
 
-from src.config import PROCESSED_DATA_DIR, RAW_DATA_DIR
+def fetch_data_from_gcs():
+    """
+    Fetch a file from GCS and store it locally.
+    Uses ADC (Application Default Credentials) from `gcloud auth login`.
+    """
+    # Load variables from .env
+    bucket_name = os.getenv("GCS_BUCKET")
+    source_blob_name = os.getenv("SOURCE_BLOB_NAME")
+    local_dir = "/Users/shubham/Desktop/Blog/california-housing-mlops/data/raw"
 
-app = typer.Typer()
+    if not all([bucket_name, source_blob_name, local_dir]):
+        raise ValueError("❌ Missing one or more environment variables in .env file.")
 
+    # Initialize GCS client (no explicit credentials needed)
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(source_blob_name)
 
-@app.command()
-def main(
-    # ---- REPLACE DEFAULT PATHS AS APPROPRIATE ----
-    input_path: Path = RAW_DATA_DIR / "dataset.csv",
-    output_path: Path = PROCESSED_DATA_DIR / "dataset.csv",
-    # ----------------------------------------------
-):
-    # ---- REPLACE THIS WITH YOUR OWN CODE ----
-    logger.info("Processing dataset...")
-    for i in tqdm(range(10), total=10):
-        if i == 5:
-            logger.info("Something happened for iteration 5.")
-    logger.success("Processing dataset complete.")
-    # -----------------------------------------
-
+    # Ensure local directory exists
+    Path(local_dir).mkdir(parents=True, exist_ok=True)
+    
+    # Define local file path
+    local_file_path = os.path.join(local_dir, os.path.basename(source_blob_name))
+    
+    # Download file
+    print(f"⬇️ Downloading {source_blob_name} from bucket {bucket_name} ...")
+    blob.download_to_filename(local_file_path)
+    print(f"✅ File saved at: {local_file_path}")
 
 if __name__ == "__main__":
-    app()
+    fetch_data_from_gcs()

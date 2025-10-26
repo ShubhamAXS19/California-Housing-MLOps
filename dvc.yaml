@@ -16,3 +16,11 @@ stages:
     outs:
       - data/processed
       - artifacts/preprocessor
+
+  train:
+    cmd: python src/modeling/train.py
+    deps:
+      - src/modeling/train.py
+      - data/processed
+    outs:
+      - artifacts/model

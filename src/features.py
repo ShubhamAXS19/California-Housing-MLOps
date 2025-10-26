@@ -6,12 +6,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+from sklearn.impute import SimpleImputer
 
 # ✅ Import config paths
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from config import RAW_DATA_PATH, PROCESSED_DATA_DIR, PREPROCESSOR_DIR
-
 
 
 def load_params(params_path="params.yaml"):
@@ -44,8 +44,13 @@ def preprocess_and_save(params):
     cat_features = X.select_dtypes(include=["object"]).columns.tolist()
 
     # Pipelines
-    num_pipeline = Pipeline([("scaler", StandardScaler())])
-    cat_pipeline = Pipeline([("onehot", OneHotEncoder(handle_unknown="ignore"))])
+    num_pipeline = Pipeline([
+        ("imputer", SimpleImputer(strategy="mean")),  # fill NaNs
+        ("scaler", StandardScaler())
+    ])
+    cat_pipeline = Pipeline([
+        ("onehot", OneHotEncoder(handle_unknown="ignore"))
+    ])
 
     preprocessor = ColumnTransformer([
         ("num", num_pipeline, num_features),
@@ -62,8 +67,10 @@ def preprocess_and_save(params):
     np.save(os.path.join(PROCESSED_DATA_DIR, "y_train.npy"), y_train.to_numpy())
     np.save(os.path.join(PROCESSED_DATA_DIR, "y_test.npy"), y_test.to_numpy())
 
-    # Save preprocessor
+    # Save preprocessor (includes imputer and scaler)
     joblib.dump(preprocessor, os.path.join(PREPROCESSOR_DIR, "preprocessor.joblib"))
+
+    print("✅ Preprocessing complete. Data and preprocessor saved.")
 
 
 if __name__ == "__main__":

@@ -29,16 +29,34 @@ stages:
       size: 360
     - path: src/features.py
       hash: md5
-      md5: be558474b2c1b51134420ba859b033ea
-      size: 2308
+      md5: 1c1d7ce8375ebc7d0ce2e16994ce6666
+      size: 2543
     outs:
     - path: artifacts/preprocessor
       hash: md5
-      md5: 11b3740b5140054914c24241e0ea2b85.dir
-      size: 3537
+      md5: 1acebd14336ee5b3bfd42d32bbad12ae.dir
+      size: 3573
       nfiles: 1
     - path: data/processed
       hash: md5
-      md5: 62fcb44617f27d69f4f46294cfc26418.dir
+      md5: 4e3c433d50799a926fa9d083b8ab57b2.dir
       size: 2312192
       nfiles: 4
+  train:
+    cmd: python src/modeling/train.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 4e3c433d50799a926fa9d083b8ab57b2.dir
+      size: 2312192
+      nfiles: 4
+    - path: src/modeling/train.py
+      hash: md5
+      md5: 47c15cf0b37d39db8d7e18fd995778f5
+      size: 1669
+    outs:
+    - path: artifacts/model
+      hash: md5
+      md5: 6773655b8ebb87970390ef8b8e445a5c.dir
+      size: 2637
+      nfiles: 2

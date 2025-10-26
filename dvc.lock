@@ -84,3 +84,51 @@ stages:
       hash: md5
       md5: 7da87a9961bb54a1930d220a116faba5
       size: 112985
+  posterior_analysis:
+    cmd: python src/posterior_analysis.py
+    deps:
+    - path: artifacts/model/model.joblib
+      hash: md5
+      md5: 3e758ef5a8e86bafa841ce7de6ae2f00
+      size: 2575
+    - path: src/posterior_analysis.py
+      hash: md5
+      md5: 65671b3b6e1fa32fe59a59f51ada3e1a
+      size: 1728
+    outs:
+    - path: artifacts/posterior/posterior_coeff_uncertainty.png
+      hash: md5
+      md5: 4d6ddef755abaf8f9f6d1161865e61fc
+      size: 27486
+    - path: artifacts/posterior/posterior_coefficients.csv
+      hash: md5
+      md5: 1f80510c9ad64fd176d2954db5721b77
+      size: 302
+  predict_with_uncertainty:
+    cmd: python src/predict_with_uncertainty.py
+    deps:
+    - path: artifacts/model/model.joblib
+      hash: md5
+      md5: 3e758ef5a8e86bafa841ce7de6ae2f00
+      size: 2575
+    - path: data/processed/X_test.npy
+      hash: md5
+      md5: 5fe04fac3afb248e8f98036975f38d02
+      size: 429440
+    - path: data/processed/y_test.npy
+      hash: md5
+      md5: 2a11e5453c39fad8638c171affea0e1a
+      size: 33152
+    - path: src/predict_with_uncertainty.py
+      hash: md5
+      md5: b326e7427971aead1d9c422c6c57baf3
+      size: 1976
+    outs:
+    - path: artifacts/uncertainty/prediction_uncertainty.png
+      hash: md5
+      md5: 9f0d9da26757a178873a2b27464b69f5
+      size: 51091
+    - path: artifacts/uncertainty/predictions_with_uncertainty.csv
+      hash: md5
+      md5: ce580ac03abf59bc6bf3e51e3013efe2
+      size: 186642

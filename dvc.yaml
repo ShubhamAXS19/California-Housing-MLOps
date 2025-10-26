@@ -35,4 +35,22 @@ stages:
     outs:
       - artifacts/predictions/predictions.csv
 
-
+  posterior_analysis:
+    cmd: python src/posterior_analysis.py
+    deps:
+      - src/posterior_analysis.py
+      - artifacts/model/model.joblib
+    outs:
+      - artifacts/posterior/posterior_coefficients.csv
+      - artifacts/posterior/posterior_coeff_uncertainty.png
+      
+  predict_with_uncertainty:
+    cmd: python src/predict_with_uncertainty.py
+    deps:
+      - src/predict_with_uncertainty.py
+      - artifacts/model/model.joblib
+      - data/processed/X_test.npy
+      - data/processed/y_test.npy
+    outs:
+      - artifacts/uncertainty/predictions_with_uncertainty.csv
+      - artifacts/uncertainty/prediction_uncertainty.png

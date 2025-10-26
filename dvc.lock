@@ -60,3 +60,27 @@ stages:
       md5: 6773655b8ebb87970390ef8b8e445a5c.dir
       size: 2637
       nfiles: 2
+  predict:
+    cmd: python src/modeling/predict.py
+    deps:
+    - path: artifacts/model/model.joblib
+      hash: md5
+      md5: 3e758ef5a8e86bafa841ce7de6ae2f00
+      size: 2575
+    - path: data/processed/X_test.npy
+      hash: md5
+      md5: 5fe04fac3afb248e8f98036975f38d02
+      size: 429440
+    - path: data/processed/y_test.npy
+      hash: md5
+      md5: 2a11e5453c39fad8638c171affea0e1a
+      size: 33152
+    - path: src/modeling/predict.py
+      hash: md5
+      md5: c0943e180320b7c7bb326ebe8db1cdcf
+      size: 1526
+    outs:
+    - path: artifacts/predictions/predictions.csv
+      hash: md5
+      md5: 7da87a9961bb54a1930d220a116faba5
+      size: 112985

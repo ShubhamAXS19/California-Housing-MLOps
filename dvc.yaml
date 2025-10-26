@@ -24,3 +24,15 @@ stages:
       - data/processed
     outs:
       - artifacts/model
+  
+  predict:
+    cmd: python src/modeling/predict.py
+    deps:
+      - src/modeling/predict.py
+      - artifacts/model/model.joblib
+      - data/processed/X_test.npy
+      - data/processed/y_test.npy
+    outs:
+      - artifacts/predictions/predictions.csv
+
+

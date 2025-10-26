@@ -5,3 +5,14 @@ stages:
       - src/dataset.py
     outs:
       - data/raw/california-housing.csv
+
+  preprocess:
+    cmd: python src/features.py
+    deps:
+      - src/features.py
+      - src/config.py
+      - params.yaml
+      - data/raw/california-housing.csv
+    outs:
+      - data/processed
+      - artifacts/preprocessor

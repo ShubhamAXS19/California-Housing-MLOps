@@ -12,3 +12,33 @@ stages:
       hash: md5
       md5: d1c47305887e2252bf1ccbd74ff159a6
       size: 1423529
+  preprocess:
+    cmd: python src/features.py
+    deps:
+    - path: data/raw/california-housing.csv
+      hash: md5
+      md5: d1c47305887e2252bf1ccbd74ff159a6
+      size: 1423529
+    - path: params.yaml
+      hash: md5
+      md5: 29b38b91ca1c4c4ed63bb712bc7fe829
+      size: 43
+    - path: src/config.py
+      hash: md5
+      md5: 70b27eeaae50df302999221412b9998f
+      size: 360
+    - path: src/features.py
+      hash: md5
+      md5: be558474b2c1b51134420ba859b033ea
+      size: 2308
+    outs:
+    - path: artifacts/preprocessor
+      hash: md5
+      md5: 11b3740b5140054914c24241e0ea2b85.dir
+      size: 3537
+      nfiles: 1
+    - path: data/processed
+      hash: md5
+      md5: 62fcb44617f27d69f4f46294cfc26418.dir
+      size: 2312192
+      nfiles: 4
